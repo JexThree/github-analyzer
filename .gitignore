@@ -1,0 +1,67 @@
+# =========================
+# Go
+# =========================
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Archivos generados por go test
+*.test
+
+# Coverage
+*.out
+coverage.out
+
+# Binarios compilados
+bin/
+dist/
+build/
+
+# =========================
+# Variables de entorno
+# =========================
+
+.env
+
+# =========================
+# VS Code
+# =========================
+
+.vscode/
+
+# =========================
+# JetBrains
+# =========================
+
+.idea/
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# Swagger generado
+# (si usan swag init)
+# =========================
+
+docs/swagger.json
+docs/swagger.yaml
+
+# =========================
+# Sistema operativo
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Air (hot reload)
+# =========================
+
+tmp/
+.air/
