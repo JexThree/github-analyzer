@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 
 	"github-analyzer/internal/database"
+	"github-analyzer/internal/models"
 	"github-analyzer/internal/services"
 )
 
@@ -12,53 +15,189 @@ func main() {
 
 	database.ConnectMongo()
 
-	if len(os.Args) < 2 {
+	reader := bufio.NewReader(os.Stdin)
 
-		fmt.Println("Comandos disponibles:")
-		fmt.Println("users")
+	for {
+
+		fmt.Println()
+		fmt.Println("=================================")
+		fmt.Println("       GITHUB ANALYZER")
+		fmt.Println("=================================")
+		fmt.Println()
+		fmt.Println("1. Login")
+		fmt.Println("2. Crear Cuenta")
+		fmt.Println("3. Salir")
+		fmt.Println()
+
+		fmt.Print("Seleccione una opción: ")
+
+		option, _ := reader.ReadString('\n')
+
+		option = strings.TrimSpace(option)
+
+		switch option {
+
+		case "1":
+			loginMenu(reader)
+
+		case "2":
+			createAccountMenu(reader)
+
+		case "3":
+			fmt.Println("Hasta luego")
+			return
+
+		default:
+			fmt.Println("Opción inválida")
+		}
+	}
+}
+func loginMenu(reader *bufio.Reader) {
+
+	fmt.Println()
+	fmt.Println("=== LOGIN ===")
+
+	fmt.Print("Usuario: ")
+	username, _ := reader.ReadString('\n')
+
+	fmt.Print("Contraseña: ")
+	password, _ := reader.ReadString('\n')
+
+	username = strings.TrimSpace(username)
+	password = strings.TrimSpace(password)
+
+	ok := services.Login(
+		username,
+		password,
+	)
+
+	if !ok {
+
+		fmt.Println()
+		fmt.Println("Credenciales incorrectas")
 
 		return
 	}
 
-	command := os.Args[1]
+	fmt.Println()
+	fmt.Println("Login exitoso")
 
-	switch command {
+	githubAnalyzerMenu(reader)
+}
+func githubAnalyzerMenu(reader *bufio.Reader) {
 
-	case "users":
+	for {
 
-		users, err := services.GetAllUsers()
+		fmt.Println()
+		fmt.Println("=================================")
+		fmt.Println("      GITHUB ANALYZER")
+		fmt.Println("=================================")
+		fmt.Println()
 
-		if err != nil {
+		fmt.Println("1. Buscar Usuario GitHub")
+		fmt.Println("2. Comparar Usuarios")
+		fmt.Println("3. Cerrar Sesión")
 
-			fmt.Println("Error:", err)
+		fmt.Print("Seleccione una opción: ")
+
+		option, _ := reader.ReadString('\n')
+
+		option = strings.TrimSpace(option)
+
+		switch option {
+
+		case "1":
+
+			fmt.Print(
+				"Ingrese usuario GitHub: ",
+			)
+
+			username, _ :=
+				reader.ReadString('\n')
+
+			username =
+				strings.TrimSpace(username)
+
+			fmt.Println()
+
+			fmt.Printf(
+				"Buscando %s...\n",
+				username,
+			)
+
+			// Tu compañero conectará GitHub API aquí
+
+		case "2":
+
+			fmt.Println(
+				"Comparación pendiente",
+			)
+
+		case "3":
 
 			return
-		}
 
-		fmt.Println("\n=== Usuarios Registrados ===\n")
+		default:
 
-		for i, user := range users {
-
-			fmt.Printf(
-				"%d. %s %s\n",
-				i+1,
-				user.Name,
-				user.LastName,
-			)
-
-			fmt.Printf(
-				"   Email: %s\n",
-				user.GithubEmail,
-			)
-
-			fmt.Printf(
-				"   Fecha Nac: %s\n\n",
-				user.BirthDate,
+			fmt.Println(
+				"Opción inválida",
 			)
 		}
-
-	default:
-
-		fmt.Println("Comando no reconocido")
 	}
+}
+func createAccountMenu(reader *bufio.Reader) {
+
+	fmt.Println()
+	fmt.Println("=== CREAR CUENTA ===")
+
+	fmt.Print("Usuario: ")
+	username, _ := reader.ReadString('\n')
+
+	fmt.Print("Contraseña: ")
+	password, _ := reader.ReadString('\n')
+
+	fmt.Print("Nombre: ")
+	name, _ := reader.ReadString('\n')
+
+	fmt.Print("Apellido: ")
+	lastname, _ := reader.ReadString('\n')
+
+	fmt.Print("Email: ")
+	email, _ := reader.ReadString('\n')
+
+	fmt.Print("Fecha Nacimiento: ")
+	birthDate, _ := reader.ReadString('\n')
+
+	user := models.User{
+
+		Username: strings.TrimSpace(username),
+
+		Password: strings.TrimSpace(password),
+
+		Name: strings.TrimSpace(name),
+
+		LastName: strings.TrimSpace(lastname),
+
+		GithubEmail: strings.TrimSpace(email),
+
+		BirthDate: strings.TrimSpace(birthDate),
+	}
+
+	_, err := services.CreateUser(user)
+
+	if err != nil {
+
+		fmt.Println()
+		fmt.Println(
+			"Error al crear usuario:",
+			err,
+		)
+
+		return
+	}
+
+	fmt.Println()
+	fmt.Println(
+		"Usuario creado correctamente",
+	)
 }
