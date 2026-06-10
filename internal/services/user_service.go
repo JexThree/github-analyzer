@@ -34,3 +34,14 @@ func DeleteUser(id string) error {
 	return repositories.DeleteUser(id)
 
 }
+func Login(username string, password string) bool {
+
+	user, err :=
+		repositories.GetUserByUsername(username)
+
+	if err != nil {
+		return false
+	}
+
+	return user.Password == password
+}

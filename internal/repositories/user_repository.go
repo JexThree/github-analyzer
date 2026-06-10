@@ -131,3 +131,20 @@ func DeleteUser(id string) error {
 
 	return err
 }
+func GetUserByUsername(username string) (*models.User, error) {
+
+	collection := database.DB.Collection("Tables")
+
+	var user models.User
+
+	err := collection.FindOne(
+		context.Background(),
+		bson.M{"username": username},
+	).Decode(&user)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}

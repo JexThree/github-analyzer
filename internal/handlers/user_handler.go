@@ -123,3 +123,44 @@ func DeleteUser(c *gin.Context) {
 		"message": "Usuario eliminado",
 	})
 }
+func Login(c *gin.Context) {
+
+	var request models.LoginRequest
+
+	if err :=
+		c.ShouldBindJSON(&request); err != nil {
+
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": err.Error(),
+			},
+		)
+
+		return
+	}
+
+	ok := services.Login(
+		request.Username,
+		request.Password,
+	)
+
+	if !ok {
+
+		c.JSON(
+			http.StatusUnauthorized,
+			gin.H{
+				"message": "Credenciales incorrectas",
+			},
+		)
+
+		return
+	}
+
+	c.JSON(
+		http.StatusOK,
+		gin.H{
+			"message": "Login exitoso",
+		},
+	)
+}

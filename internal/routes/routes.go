@@ -17,4 +17,6 @@ func SetupRoutes(r *gin.Engine) {
 	r.PUT("/users/:id", handlers.UpdateUser)
 
 	r.DELETE("/users/:id", handlers.DeleteUser)
+
+	r.POST("/login", handlers.Login)
 }

@@ -44,18 +44,24 @@ async function createUser() {
 
     const user = {
 
-        name:
-            document.getElementById("name").value,
+    username:
+        document.getElementById("username").value,
 
-        lastname:
-            document.getElementById("lastname").value,
+    password:
+        document.getElementById("password").value,
 
-        githubEmail:
-            document.getElementById("email").value,
+    name:
+        document.getElementById("name").value,
 
-        birthDate:
-            document.getElementById("birthDate").value
-    };
+    lastname:
+        document.getElementById("lastname").value,
+
+    githubEmail:
+        document.getElementById("email").value,
+
+    birthDate:
+        document.getElementById("birthDate").value
+};
 
     await fetch(API_URL, {
 
