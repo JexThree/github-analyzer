@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>Gestión de Usuarios</h2>
+
+        <a href="/">
+            Volver al Analizador
+        </a>
+    </nav>
+
+    <div class="container">
+
+        <h1>Usuarios</h1>
+
+        <div class="form-container">
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Nombre"
+            >
+
+            <input
+                type="text"
+                id="lastname"
+                placeholder="Apellido"
+            >
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email GitHub"
+            >
+
+            <input
+                type="text"
+                id="birthDate"
+                placeholder="DD-MM-YYYY"
+            >
+
+            <button onclick="createUser()">
+                Crear Usuario
+            </button>
+
+        </div>
+
+        <hr>
+
+        <div id="usersContainer"></div>
+
+    </div>
+
+    <script src="/js/users.js"></script>
+
+</body>
+</html>
