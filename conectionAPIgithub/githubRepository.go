@@ -8,7 +8,8 @@ import (
 	"os"
 )
 
-type githubRepository struct {
+type GithubRepository struct {
+	Name        string `json:"name"`
 	Description string `json:"description"`
 	Size        int    `json:"size"`
 
@@ -22,7 +23,7 @@ type githubRepository struct {
 	Updated_at   string `json:"updated_at"`
 }
 
-func RepositoryListDeclaration(reposUrl string) []githubRepository {
+func RepositoryListDeclaration(reposUrl string) []GithubRepository {
 	resp, err := http.Get(reposUrl)
 	if err != nil {
 		fmt.Println("Error while doing petition: ", err)
@@ -30,7 +31,7 @@ func RepositoryListDeclaration(reposUrl string) []githubRepository {
 	}
 	defer resp.Body.Close()
 
-	var repositoryList []githubRepository
+	var repositoryList []GithubRepository
 
 	err = json.NewDecoder(resp.Body).Decode(&repositoryList)
 	if err != nil {
@@ -40,7 +41,7 @@ func RepositoryListDeclaration(reposUrl string) []githubRepository {
 	return repositoryList
 }
 
-func RepositoryDescription(repo githubRepository) {
+func RepositoryDescription(repo GithubRepository) {
 	fmt.Printf("\nDescription: %s\nSize: %d\nStargazers: %d\nWatchers: %d\nLanguage: %s\nForks: %d\nCreated at: %s\nUpdated at: %s\n",
 		repo.Description, repo.Size, repo.Stargazers, repo.Watchers, repo.Language, repo.Forks, repo.Creatated_at, repo.Updated_at)
 }

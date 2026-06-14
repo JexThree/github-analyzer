@@ -2,7 +2,7 @@ package conectionapigithub
 
 import "fmt"
 
-func TopRepository(repositoryList []githubRepository) githubRepository {
+func TopRepository(repositoryList []GithubRepository) GithubRepository {
 	var topRepository = repositoryList[0]
 	for counter := 1; counter < len(repositoryList); counter++ {
 		if repositoryList[counter].Stargazers > topRepository.Stargazers {
@@ -12,7 +12,7 @@ func TopRepository(repositoryList []githubRepository) githubRepository {
 	return topRepository
 }
 
-func CountLanguages(repos []githubRepository) map[string]int {
+func CountLanguages(repos []GithubRepository) map[string]int {
 
 	counts := make(map[string]int)
 
@@ -26,7 +26,7 @@ func CountLanguages(repos []githubRepository) map[string]int {
 	return counts
 }
 
-func RepositoryDescriptionList(repo []githubRepository) {
+func RepositoryDescriptionList(repo []GithubRepository) {
 
 	for c := 0; c < len(repo); c++ {
 		fmt.Printf("\nRepo number: %d\nDescription: %s\nSize: %d\nStargazers: %d\nWatchers: %d\nLanguage: %s\nForks: %d\nCreated at: %s\nUpdated at: %s\n",
